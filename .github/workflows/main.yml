@@ -80,6 +80,27 @@ jobs:
             -Credential $cred `
             -ArgumentList "-profile C:\Users\RDP\AppData\Roaming\Mozilla\Firefox\Profiles\rdp"
 
+      - name: Create Scheduled Task to Launch Firefox on RDP Login
+        run: |
+          $user = "RDP"
+          $firefox = "C:\Program Files\Mozilla Firefox\firefox.exe"
+          $url = "https://tu-url.com"
+      
+          $action = New-ScheduledTaskAction `
+            -Execute $firefox `
+            -Argument "$url"
+      
+          $trigger = New-ScheduledTaskTrigger -AtLogOn -User $user
+      
+          Register-ScheduledTask `
+            -TaskName "LaunchFirefoxOnLogin" `
+            -Action $action `
+            -Trigger $trigger `
+            -User $user `
+            -RunLevel Highest `
+            -Force
+
+
       - name: Install Tailscale
         run: |
           $tsUrl = "https://pkgs.tailscale.com/stable/tailscale-setup-1.82.0-amd64.msi"
