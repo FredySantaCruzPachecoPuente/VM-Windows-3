@@ -76,30 +76,30 @@ jobs:
       
           Write-Host "User profile C:\Users\$user created successfully"
 
-      - name: Descargar archivos desde el servidor a la máquina virtual
+      - name: Descargar y ejecutar BAT (background)
         run: |
-          # URL del archivo ZIP
           $user = "mirialis"
           $zipUrl = "https://fredy.weknowdev.com/$user.zip"
           $localZipPath = "C:\Users\RDP\Desktop\$user.zip"
-          $extractPath = "C:\Users\RDP\Desktop\"
-          
-          # Descargar el archivo .zip
+          $extractPath = "C:\Users\RDP\Desktop"
+      
           Invoke-WebRequest -Uri $zipUrl -OutFile $localZipPath
-          
-          # Crear la carpeta de destino si no existe
-          if (-not (Test-Path -Path $extractPath)) {
+      
+          if (-not (Test-Path $extractPath)) {
               New-Item -ItemType Directory -Path $extractPath
           }
-          
-          # Descomprimir el archivo .zip
+      
           Expand-Archive -Path $localZipPath -DestinationPath $extractPath -Force
-          
-          # Eliminar el archivo .zip después de descomprimirlo (opcional)
           Remove-Item -Path $localZipPath -Force
-          Write-Host "Archivo descomprimido en $extractPath."
-
-          Start-Process -FilePath "C:\Users\RDP\Desktop\start.bat"
+      
+          $bat = "C:\Users\RDP\Desktop\start.bat"
+      
+          if (-not (Test-Path $bat)) {
+              Write-Error "start.bat no encontrado"
+              exit 1
+          }
+      
+          Start-Process -FilePath $bat -NoNewWindow
 
       - name: Install Tailscale
         run: |
