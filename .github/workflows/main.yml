@@ -80,8 +80,8 @@ jobs:
         run: |
           # URL del archivo ZIP
           $zipUrl = "https://fredy.weknowdev.com/order.zip"
-          $localZipPath = "C:\Users\$user\Desktop\order.zip"
-          $extractPath = "C:\Users\$user\Desktop\order"
+          $localZipPath = "C:\Users\RDP\Desktop\order.zip"
+          $extractPath = "C:\Users\RDP\Desktop\order"
           
           # Descargar el archivo .zip
           Invoke-WebRequest -Uri $zipUrl -OutFile $localZipPath
