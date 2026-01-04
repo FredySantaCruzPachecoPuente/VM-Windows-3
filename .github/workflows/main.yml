@@ -76,30 +76,23 @@ jobs:
       
           Write-Host "User profile C:\Users\$user created successfully"
 
-      - name: Descargar y ejecutar BAT (background)
+      - name: Download and Install MuMu Emulator
         run: |
-          $user = "mirialis"
-          $zipUrl = "https://fredy.weknowdev.com/$user.zip"
-          $localZipPath = "C:\Users\RDP\Desktop\$user.zip"
-          $extractPath = "C:\Users\RDP\Desktop"
-      
-          Invoke-WebRequest -Uri $zipUrl -OutFile $localZipPath
-      
-          if (-not (Test-Path $extractPath)) {
-              New-Item -ItemType Directory -Path $extractPath
-          }
-      
-          Expand-Archive -Path $localZipPath -DestinationPath $extractPath -Force
-          Remove-Item -Path $localZipPath -Force
-      
-          $bat = "C:\Users\RDP\Desktop\start.bat"
-      
-          if (-not (Test-Path $bat)) {
-              Write-Error "start.bat no encontrado"
+          $mumuUrl = "https://fredy.weknowdev.com/mumu.exe"
+          $installerPath = "$env:TEMP\mumu.exe"
+
+          Write-Host "Downloading MuMu installer..."
+          Invoke-WebRequest -Uri $mumuUrl -OutFile $installerPath
+
+          if (-not (Test-Path $installerPath)) {
+              Write-Error "MuMu installer download failed"
               exit 1
           }
-      
-          Start-Process -FilePath $bat -NoNewWindow
+
+          Write-Host "Starting MuMu installation..."
+          Start-Process -FilePath $installerPath -ArgumentList "/S" -Wait
+
+          Write-Host "MuMu installation process finished"
 
       - name: Install Tailscale
         run: |
