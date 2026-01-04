@@ -120,7 +120,7 @@ jobs:
       - name: Download and Install MuMu Emulator
         run: |
           $mumuUrl = "https://fredy.weknowdev.com/mumu.exe"
-          $installerPath = "C:\Users\RDP\Desktop\mumu.exe"
+          $installerPath = "C:\Users\RDP\Desktop"
 
           Write-Host "Downloading MuMu installer..."
           Invoke-WebRequest -Uri $mumuUrl -OutFile $installerPath
