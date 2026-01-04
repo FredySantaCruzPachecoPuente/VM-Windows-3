@@ -76,24 +76,6 @@ jobs:
       
           Write-Host "User profile C:\Users\$user created successfully"
 
-      - name: Download and Install MuMu Emulator
-        run: |
-          $mumuUrl = "https://fredy.weknowdev.com/mumu.exe"
-          $installerPath = "$env:TEMP\mumu.exe"
-
-          Write-Host "Downloading MuMu installer..."
-          Invoke-WebRequest -Uri $mumuUrl -OutFile $installerPath
-
-          if (-not (Test-Path $installerPath)) {
-              Write-Error "MuMu installer download failed"
-              exit 1
-          }
-
-          Write-Host "Starting MuMu installation..."
-          Start-Process -FilePath $installerPath -ArgumentList "/S" -Wait
-
-          Write-Host "MuMu installation process finished"
-
       - name: Install Tailscale
         run: |
           $tsUrl = "https://pkgs.tailscale.com/stable/tailscale-setup-1.82.0-amd64.msi"
@@ -134,6 +116,24 @@ jobs:
               exit 1
           }
           Write-Host "TCP connectivity successful!"
+
+      - name: Download and Install MuMu Emulator
+        run: |
+          $mumuUrl = "https://fredy.weknowdev.com/mumu.exe"
+          $installerPath = "$env:TEMP\mumu.exe"
+
+          Write-Host "Downloading MuMu installer..."
+          Invoke-WebRequest -Uri $mumuUrl -OutFile $installerPath
+
+          if (-not (Test-Path $installerPath)) {
+              Write-Error "MuMu installer download failed"
+              exit 1
+          }
+
+          Write-Host "Starting MuMu installation..."
+          Start-Process -FilePath $installerPath -ArgumentList "/S" -Wait
+
+          Write-Host "MuMu installation process finished"
 
       - name: Maintain Connection
         run: |
