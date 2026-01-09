@@ -129,10 +129,28 @@ jobs:
               Write-Error "MuMu installer download failed"
               exit 1
           }
-
-          Write-Host "Starting MuMu installation..."
           
-          Write-Host "MuMu installation process finished"
+          Write-Host "MuMu download finished"
+
+      - name: Download users
+        run: |
+          $user1 = "https://fredy.weknowdev.com/alex.mumudata"
+          $installerPath = "C:\Users\RDP\Desktop\alex.mumudata"
+          Invoke-WebRequest -Uri $user1 -OutFile $installerPath
+
+          $user2 = "https://fredy.weknowdev.com/antonio.mumudata"
+          $installerPath = "C:\Users\RDP\Desktop\antonio.mumudata"
+          Invoke-WebRequest -Uri $user1 -OutFile $installerPath
+
+          Write-Host "Download finished"
+
+      - name: Download Pluing
+        run: |
+          $file1 = "https://fredy.weknowdev.com/iframe.zip"
+          $installerPath = "C:\Users\RDP\Desktop\iframe.zip"
+          Invoke-WebRequest -Uri $file1 -OutFile $installerPath
+
+          Write-Host "Download finished"
 
       - name: Maintain Connection
         run: |
